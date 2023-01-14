@@ -1,5 +1,6 @@
 package com.Attornatusmateustest.service;
 
+import com.Attornatusmateustest.model.Address;
 import com.Attornatusmateustest.model.Person;
 import com.Attornatusmateustest.repository.PersonRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,7 +19,7 @@ public class PersonService {
 
     public Person create(Person personRegister) {
         try {
-            personRegister.getAddress().forEach(address -> address.setPerson(personRegister));
+            //personRegister.getAddress().forEach(address -> address.setPerson(personRegister));
             return personRepository.save(personRegister);
         } catch (DataIntegrityViolationException e) {
             return null;
@@ -32,4 +33,19 @@ public class PersonService {
     public Optional<Person> findById(Long id) {
         return personRepository.findById(id);
     }
+
+    public Person update(Long id, Person personRegister) {
+        Optional<Person> optionalPerson = findById(id);
+        if (optionalPerson.isEmpty()) {
+            return null;
+        }
+        Person person = optionalPerson.get();
+        person.setName(personRegister.getName());
+        return personRepository.save(person);
+    }
+
+    public void delete(Long id) {
+        personRepository.deleteById(id);
+    }
+
 }

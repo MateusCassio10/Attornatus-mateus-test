@@ -40,4 +40,19 @@ public class PersonController {
         return ResponseEntity.ok(optionalPerson.get());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity updateRegister(@PathVariable(value = "id") Long id, @RequestBody Person personRegister) {
+        Person person = personService.update(id, personRegister);
+        if (person == null){
+            return ResponseEntity.badRequest().body("Person Not Found!");
+        }
+        return ResponseEntity.ok(person);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable(value = "id") Long id) {
+        personService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
