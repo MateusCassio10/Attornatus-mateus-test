@@ -3,6 +3,7 @@ package com.Attornatusmateustest.service;
 import com.Attornatusmateustest.model.Address;
 import com.Attornatusmateustest.model.Person;
 import com.Attornatusmateustest.repository.AddressRepository;
+;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,19 @@ import java.util.Optional;
 public class AddressService {
 
     private final AddressRepository addressRepository;
-    public AddressService(AddressRepository addressRepository) {
+    private final PersonService personService;
+    public AddressService(AddressRepository addressRepository, PersonService personService) {
         this.addressRepository = addressRepository;
+        this.personService = personService;
     }
 
-    public Address create(Address addressRegister) {
+    public Address create(Address addressRegister, Long personId) {
         try {
+            Optional<Person> optionalPerson = personService.findById(personId);
+            if(optionalPerson.isEmpty()){
+                return null;
+            }
+            addressRegister.setPerson(optionalPerson.get());
             return addressRepository.save(addressRegister);
         } catch (DataIntegrityViolationException e) {
             return null;

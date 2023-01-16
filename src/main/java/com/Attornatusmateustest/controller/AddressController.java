@@ -9,28 +9,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/address")
 public class AddressController {
     private final AddressService addressService;
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 
-    @PostMapping
-    public ResponseEntity register(@RequestBody Address addressRegister){
-        Address address = addressService.create(addressRegister);
+    @PostMapping("/person/{personId}/address/")
+    public ResponseEntity register(@RequestBody Address addressRegister,
+                                   @PathVariable(value = "personId")Long personId){
+        Address address = addressService.create(addressRegister, personId);
         if(address == null){
             return ResponseEntity.badRequest().body("");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
+    @GetMapping("/address")
     public ResponseEntity listAll(){
         return ResponseEntity.ok(addressService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/address/{id}")
     public ResponseEntity getById(@PathVariable(value = "id") Long id){
         Optional<Address> optionalAddress = addressService.findById(id);
         if(optionalAddress.isEmpty()) {
@@ -39,7 +39,7 @@ public class AddressController {
         return ResponseEntity.ok(optionalAddress.get());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/address/{id}")
     public ResponseEntity updateRegister(@PathVariable(value = "id") Long id, @RequestBody Address addressRegister) {
         Address address = addressService.update(id, addressRegister);
         if (address == null){
@@ -47,5 +47,4 @@ public class AddressController {
         }
         return ResponseEntity.ok(address);
     }
-
 }
