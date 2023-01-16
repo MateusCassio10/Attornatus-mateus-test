@@ -50,4 +50,8 @@ public class AddressService {
         address.setStreetAddress(addressRegister.getStreetAddress());
         return addressRepository.save(address);
     }
+
+    public void delete(Long id) {
+        addressRepository.deleteById(id);
+    }
 }
