@@ -1,6 +1,5 @@
 package com.Attornatusmateustest.service;
 
-import com.Attornatusmateustest.model.Address;
 import com.Attornatusmateustest.model.Person;
 import com.Attornatusmateustest.repository.PersonRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,7 +18,6 @@ public class PersonService {
 
     public Person create(Person personRegister) {
         try {
-            //personRegister.getAddress().forEach(address -> address.setPerson(personRegister));
             return personRepository.save(personRegister);
         } catch (DataIntegrityViolationException e) {
             return null;
