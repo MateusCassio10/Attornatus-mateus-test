@@ -4,6 +4,7 @@ import com.Attornatusmateustest.model.Person;
 import com.Attornatusmateustest.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
