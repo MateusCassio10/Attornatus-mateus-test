@@ -21,7 +21,7 @@ public class PersonServiceTest {
     private PersonService personService;
 
     @Test
-    void testCreatePersonOk(){
+    void testCreatePersonOk() {
         //mock
         Person person = new Person();
         person.setId(50L);
@@ -38,7 +38,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    void testDelete(){
+    void testDelete() {
         //mock
         Long id = 15L;
 

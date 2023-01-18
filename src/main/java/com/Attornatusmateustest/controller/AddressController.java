@@ -12,28 +12,29 @@ import java.util.Optional;
 @RequestMapping("/address")
 public class AddressController {
     private final AddressService addressService;
+
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 
     @PostMapping
-    public ResponseEntity register(@RequestBody Address addressRegister){
+    public ResponseEntity register(@RequestBody Address addressRegister) {
         Address address = addressService.create(addressRegister);
-        if(address == null){
+        if (address == null) {
             return ResponseEntity.badRequest().body("");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public ResponseEntity listAll(){
+    public ResponseEntity listAll() {
         return ResponseEntity.ok(addressService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getById(@PathVariable(value = "id") Long id){
+    public ResponseEntity getById(@PathVariable(value = "id") Long id) {
         Optional<Address> optionalAddress = addressService.findById(id);
-        if(optionalAddress.isEmpty()) {
+        if (optionalAddress.isEmpty()) {
             return ResponseEntity.badRequest().body("Address Not Found!");
         }
         return ResponseEntity.ok(optionalAddress.get());
@@ -47,6 +48,7 @@ public class AddressController {
         }
         return ResponseEntity.ok(address);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") Long id) {
         addressService.delete(id);

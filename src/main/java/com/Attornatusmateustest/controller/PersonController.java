@@ -4,7 +4,6 @@ import com.Attornatusmateustest.model.Person;
 import com.Attornatusmateustest.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -14,28 +13,29 @@ import java.util.Optional;
 public class PersonController {
 
     private final PersonService personService;
+
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
     @PostMapping
-    public ResponseEntity register(@RequestBody Person personRegister){
+    public ResponseEntity register(@RequestBody Person personRegister) {
         Person person = personService.create(personRegister);
-        if(person == null){
+        if (person == null) {
             return ResponseEntity.badRequest().body("");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public ResponseEntity listAll(){
+    public ResponseEntity listAll() {
         return ResponseEntity.ok(personService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getById(@PathVariable(value = "id") Long id){
+    public ResponseEntity getById(@PathVariable(value = "id") Long id) {
         Optional<Person> optionalPerson = personService.findById(id);
-        if(optionalPerson.isEmpty()) {
+        if (optionalPerson.isEmpty()) {
             return ResponseEntity.badRequest().body("Person Not Found!");
         }
         return ResponseEntity.ok(optionalPerson.get());
@@ -44,7 +44,7 @@ public class PersonController {
     @PutMapping("/{id}")
     public ResponseEntity updateRegister(@PathVariable(value = "id") Long id, @RequestBody Person personRegister) {
         Person person = personService.update(id, personRegister);
-        if (person == null){
+        if (person == null) {
             return ResponseEntity.badRequest().body("Person Not Found!");
         }
         return ResponseEntity.ok(person);
